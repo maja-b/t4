@@ -24,15 +24,8 @@ jobs:
     runs-on: ubuntu-latest
     name: Replacing Repository variables
     steps:
-      - uses: actions/checkout@v2
-      - name: Find and Replace
-        uses: jacobtomlinson/gha-find-replace@v2
+      - uses: actions/checkout@v3
+      - uses: flcdrg/replace-multiple-action@v1
         with:
-          find: "<<[var.project.name]>>"
-          replace: ${{ github.event.inputs.project-name }}
-          regex: false
-      - name: Push changes
-        uses: ad-m/github-push-action@v0.6.0
-        with:
-          github_token: ${{ secrets.DEV_TOKEN }}
-          branch: ${{ github.ref }}
+          files: './*.html'
+          find: '[{ "find": "<<[var.project.name]>>", "replace": ${{ github.event.inputs.project-name }} }]'
