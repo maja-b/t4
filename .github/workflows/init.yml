@@ -27,5 +27,5 @@ jobs:
       - uses: actions/checkout@v3        
       - name: Run script file
         run: |
-          grep -rl '<<[var.project.name]>>' ./wp-content | xargs sed -i 's/<<[var.project.name]>>/${{ github.event.inputs.project-name }}/g';
+          grep -rli '<<[var.project.name]>>' * | xargs -i@ sed -i 's/<<[var.project.name]>>/${{ github.event.inputs.project-name }}/g @';
         shell: bash
