@@ -1,0 +1,36 @@
+name: Initialize Repo
+on:
+  workflow_dispatch:
+    inputs:
+      project-name:
+        description: 'Name of the project'
+        required: true
+        default: ''
+      project-slug:
+        description: 'Slug of the project'
+        required: true
+        default: ''
+      theme-name:
+        description: 'Parent theme name'
+        required: true
+        default: ''
+      child-name:
+        description: 'Child theme name'
+        required: true
+        default: ''
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Replacing Repository variables
+    steps:
+      - uses: actions/checkout@v3
+      - uses: jason-dour/action-setup-gomplate@v1.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.DEV_TOKEN }}
+      - run: gomplate --version
+
+      - name: Run script file
+        run: |
+          find ./ -type f -exec sed -i -e 's/<<[var.project.name]>>/${{ github.event.inputs.project-name }}/g' {} \;
+        shell: bash
