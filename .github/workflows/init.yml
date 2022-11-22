@@ -29,3 +29,12 @@ jobs:
         with:
           files: './*.html'
           find: '[{ "find": "<<[var.project.name]>>", "replace": "${{ github.event.inputs.project-name }}" }]'
+      - name: Run the Action
+        uses: devops-infra/action-commit-push@master
+        with:
+          github_token: "${{ secrets.DEV_TOKEN }}"
+          add_timestamp: true
+          commit_prefix: "[AUTO]"
+          commit_message: "Initialize Repo"
+          force: false
+          target_branch: update/version
